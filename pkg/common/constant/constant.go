@@ -140,6 +140,7 @@ const (
 	ExpiredToken = 3
 
 	//MultiTerminalLogin
+	DefalutNotKick = 0
 	//Full-end login, but the same end is mutually exclusive
 	AllLoginButSameTermKick = 1
 	//Only one of the endpoints can log in
@@ -209,6 +210,7 @@ const (
 	CallbackAfterSendSingleMsgCommand                    = "callbackAfterSendSingleMsgCommand"
 	CallbackBeforeSendGroupMsgCommand                    = "callbackBeforeSendGroupMsgCommand"
 	CallbackAfterSendGroupMsgCommand                     = "callbackAfterSendGroupMsgCommand"
+	CallbackAfterConsumeGroupMsgCommand                  = "callbackAfterConsumeGroupMsgCommand"
 	CallbackMsgModifyCommand                             = "callbackMsgModifyCommand"
 	CallbackUserOnlineCommand                            = "callbackUserOnlineCommand"
 	CallbackUserOfflineCommand                           = "callbackUserOfflineCommand"
@@ -359,4 +361,4 @@ const StatisticsTimeInterval = 60
 
 const MaxNotificationNum = 500
 
-const CurrentVersion = "v2.3.4-rc0"
+const CurrentVersion = "v2.3.8-rc0"
