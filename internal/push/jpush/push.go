@@ -47,7 +47,7 @@ func (j *JPush) Push(accounts []string, title, detailContent, operationID string
 	}
 	no.IOSEnableMutableContent()
 	no.SetExtras(extras)
-	no.SetAlert(title)
+	no.SetAlert(title, detailContent)
 	var me requestBody.Message
 	me.SetMsgContent(detailContent)
 	var o requestBody.Options
