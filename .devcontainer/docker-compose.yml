@@ -219,6 +219,7 @@ services:
     volumes:
       - ..:/workspace:cached
       - /root/.ssh:/root/.ssh
+      - ./go:/go/pkg
       
     command: sleep infinity
     network_mode: "host"
