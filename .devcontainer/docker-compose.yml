@@ -218,6 +218,7 @@ services:
 
     volumes:
       - ..:/workspace:cached
+      - /root/.ssh:/root/.ssh
       
     command: sleep infinity
     network_mode: "host"
