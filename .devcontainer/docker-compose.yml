@@ -127,8 +127,8 @@ services:
     container_name: open_im_server
     volumes:
       - ../logs:/Open-IM-Server/logs
-      - ../config/config.yaml:/Open-IM-Server/config/config.yaml
-      - ../config/usualConfig.yaml:/Open-IM-Server/config/usualConfig.yaml
+      - ./config/config.yaml:/Open-IM-Server/config/config.yaml
+      - ./config/usualConfig.yaml:/Open-IM-Server/config/usualConfig.yaml
       - ${DATA_DIR}/db/sdk:/Open-IM-Server/db/sdk
       - ../script:/Open-IM-Server/script
     restart: always
@@ -222,6 +222,7 @@ services:
       - ./go:/go/pkg
       
     command: sleep infinity
+    env_file: app.env
     network_mode: "host"
 
     # Uncomment the next line to use a non-root user for all processes.
