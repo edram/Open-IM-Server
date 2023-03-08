@@ -82,6 +82,17 @@ services:
     depends_on:
       - zookeeper
 
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=127.0.0.1:9092
+    network_mode: "host" 
+
   etcd:
     image: quay.io/coreos/etcd
     ports:
