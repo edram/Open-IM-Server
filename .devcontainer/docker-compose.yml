@@ -3,9 +3,9 @@ version: '3.8'
 services:
   mysql:
     image: mysql:5.7
-    ports:
-      - 13306:3306
-      - 23306:33060
+    # ports:
+    #   - 13306:3306
+    #   - 23306:33060
     container_name: mysql
     volumes:
       - ${DATA_DIR}/components/mysql/data:/var/lib/mysql
@@ -16,8 +16,8 @@ services:
 
   mongodb:
     image: mongo:4.0
-    ports:
-      - 37017:27017
+    # ports:
+    #   - 37017:27017
     container_name: mongo
     command: --wiredTigerCacheSizeGB 1 --auth
     volumes:
@@ -39,8 +39,8 @@ services:
 
   redis:
     image: redis
-    ports:
-      - 16379:6379
+    # ports:
+    #   - 16379:6379
     container_name: redis
     volumes:
       - ${DATA_DIR}/components/redis/data:/data
@@ -55,8 +55,8 @@ services:
 
   zookeeper:
     image: wurstmeister/zookeeper
-    ports:
-      - 2181:2181
+    # ports:
+    #   - 2181:2181
     container_name: zookeeper
     volumes:
       - /etc/localtime:/etc/localtime
@@ -68,14 +68,14 @@ services:
     image: wurstmeister/kafka
     container_name: kafka
     restart: always
-    ports:
-      - 9092:9092
+    # ports:
+    #   - 9092:9092
     environment:
       TZ: Asia/Shanghai
       KAFKA_BROKER_ID: 0
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "ws2ms_chat:8:1,ms2ps_chat:8:1,msg_to_mongo:8:1"
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://127.0.0.1:9092,OUTSIDE://103.116.45.174:9092
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9092,OUTSIDE://103.116.45.174:9092
       KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT"
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
@@ -90,14 +90,13 @@ services:
     restart: always
     environment:
       - KAFKA_CLUSTERS_0_NAME=local
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=127.0.0.1:9092
-    network_mode: "host" 
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
 
   etcd:
     image: quay.io/coreos/etcd
-    ports:
-      - 2379:2379
-      - 2380:2380
+    # ports:
+    #   - 2379:2379
+    #   - 2380:2380
     container_name: etcd
     volumes:
       - /etc/timezone:/etc/timezone
@@ -139,7 +138,9 @@ services:
       - redis
       - etcd
       - minio
-    network_mode: "host"
+    ports:
+      - "10001:10001"
+      - "10002:10002"
     logging:
       driver: json-file
       options:
@@ -150,8 +151,8 @@ services:
     image: openim/open_im_enterprise:v1.0.3
     container_name: open_im_enterprise
     volumes:
-      - ../logs:/Open-IM-Enterprise/logs
-      - ../docker-compose_cfg/config.yaml:/Open-IM-Enterprise/config/config.yaml
+      - ../logs-enterprice:/Open-IM-Enterprise/logs
+      - ./config/enterprise.yaml:/Open-IM-Enterprise/config/config.yaml
     restart: always
     depends_on:
       - mysql
@@ -160,7 +161,9 @@ services:
       - etcd
       - minio
       - open_im_server
-    network_mode: "host"
+    ports:
+      - "10008:10008"
+      - "10009:10009"
     logging:
       driver: json-file
       options:
@@ -179,7 +182,6 @@ services:
     depends_on:
     - open_im_server
     command: --web.listen-address=:9091 --config.file="/etc/prometheus/prometheus.yml"
-    network_mode: "host" 
 
   grafana:
     image: grafana/grafana
@@ -194,7 +196,6 @@ services:
     #    - 10007:10007
     depends_on:
     - prometheus
-    network_mode: "host" 
 
   node-exporter:
     image: quay.io/prometheus/node-exporter
@@ -223,7 +224,6 @@ services:
       
     command: sleep infinity
     env_file: app.env
-    network_mode: "host"
 
     # Uncomment the next line to use a non-root user for all processes.
     # user: vscode
