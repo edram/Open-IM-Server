@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "open_im_api",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/cmd",
+            "program": "${workspaceFolder}/cmd/open_im_api"
+        },
+        {
             "name": "open_im_push",
             "type": "go",
             "request": "launch",
